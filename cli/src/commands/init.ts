@@ -93,7 +93,12 @@ function getTemplatePath(): string {
 }
 
 async function initializeProject(options: InitOptions): Promise<void> {
-  const { name, stack, git, 'skip-git': skipGit, install, 'skip-install': skipInstall, setup, 'skip-setup': skipSetup, cwd } = options;
+  // Commander converts --skip-git to skipGit in camelCase, but we need to check both
+  const skipGit = (options as any)['skip-git'] || (options as any).skipGit;
+  const skipInstall = (options as any)['skip-install'] || (options as any).skipInstall;
+  const skipSetup = (options as any)['skip-setup'] || (options as any).skipSetup;
+  
+  const { name, stack, git, install, setup, cwd } = options;
   
   let projectName = name;
   let selectedStack = stack;
