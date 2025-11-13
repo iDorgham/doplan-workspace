@@ -133,9 +133,11 @@ export function displayBriefStatus(data: StatusData): void {
 }
 
 export function displayFullStatus(data: StatusData): void {
-  console.log(cyan('\n╔════════════════════════════════════════╗'));
+  console.log('');
+  console.log(cyan('╔════════════════════════════════════════╗'));
   console.log(cyan('║        DoPlan Progress Dashboard       ║'));
-  console.log(cyan('╚════════════════════════════════════════╝\n'));
+  console.log(cyan('╚════════════════════════════════════════╝'));
+  console.log('');
 
   console.log(`${green('Overall Progress')}`);
   console.log(renderBar(data.overallProgress, 40));

@@ -52,9 +52,11 @@ export function buildDigestContent(audience: string, summary: DigestSummary): st
 export function displayDigestPreview(audience: string, content: string): void {
   const titleColor = audience === 'exec' ? green : audience === 'product' ? blue : cyan;
 
-  console.log(titleColor('\n╔════════════════════════════════════════╗'));
+  console.log('');
+  console.log(titleColor('╔════════════════════════════════════════╗'));
   console.log(titleColor(`║   DoPlan Digest — ${audience.toUpperCase().padEnd(20)} ║`));
-  console.log(titleColor('╚════════════════════════════════════════╝\n'));
+  console.log(titleColor('╚════════════════════════════════════════╝'));
+  console.log('');
 
   // Parse and display formatted content
   const lines = content.split('\n');
