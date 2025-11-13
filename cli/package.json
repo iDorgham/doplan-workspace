@@ -1,6 +1,6 @@
 {
   "name": "doplan-cli",
-  "version": "0.1.0",
+  "version": "0.1.1-alpha",
   "description": "DoPlan CLI - Command-line interface for DoPlan workflow",
   "type": "commonjs",
   "main": "dist/index.js",
