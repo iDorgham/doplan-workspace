@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import { Command } from 'commander';
+import { initCommand } from './commands/init';
 import { setupCommand } from './commands/setup';
 import { ideaCommand } from './commands/idea';
 import { planCommand } from './commands/plan';
@@ -36,6 +37,7 @@ program
   .option('--json', 'Output as JSON');
 
 // Register all commands
+initCommand(program);
 setupCommand(program);
 ideaCommand(program);
 planCommand(program);
