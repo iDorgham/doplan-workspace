@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { displayBriefStatus, displayFullStatus } from '../../commands/progress';
 import type { StatusData } from '../../commands/progress';
 
