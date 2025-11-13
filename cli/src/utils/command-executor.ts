@@ -29,10 +29,19 @@ export async function executeCommand(
   // Build command arguments
   const args: string[] = [command];
   Object.entries(options).forEach(([key, value]) => {
-    if (key !== 'projectRoot' && key !== 'noSpinner' && key !== 'json' && value !== undefined) {
+    // Skip internal config keys and complex objects
+    if (
+      key !== 'projectRoot' &&
+      key !== 'noSpinner' &&
+      key !== 'json' &&
+      key !== 'telemetry' &&
+      key !== 'assistants' &&
+      key !== 'plugins' &&
+      value !== undefined
+    ) {
       if (typeof value === 'boolean' && value) {
         args.push(`--${key}`);
-      } else if (typeof value !== 'boolean') {
+      } else if (typeof value !== 'boolean' && typeof value !== 'object') {
         args.push(`--${key}`, String(value));
       }
     }
