@@ -137,10 +137,12 @@ export async function recordEvent(event: TelemetryEvent): Promise<void> {
 
 export function getVersion(): string {
   try {
-    const { readFileSync } = require('fs');
-    const { join } = require('path');
+    // Use __dirname which is available in CommonJS builds
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const path = require('path');
+    const packageJsonPath = path.join(__dirname, '../../package.json');
     const packageJson = JSON.parse(
-      readFileSync(join(__dirname, '../../package.json'), 'utf-8')
+      readFileSync(packageJsonPath, 'utf-8')
     );
     return packageJson.version || 'unknown';
   } catch {

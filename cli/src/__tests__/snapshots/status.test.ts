@@ -32,7 +32,7 @@ describe('Status Command Snapshot Tests', () => {
     // Capture console output
     const output: string[] = [];
     const originalLog = console.log;
-    console.log = (...args: any[]) => {
+    console.log = (...args: unknown[]) => {
       output.push(args.map(String).join(' '));
     };
 
@@ -70,7 +70,7 @@ describe('Status Command Snapshot Tests', () => {
     // Capture console output
     const output: string[] = [];
     const originalLog = console.log;
-    console.log = (...args: any[]) => {
+    console.log = (...args: unknown[]) => {
       output.push(args.map(String).join(' '));
     };
 
@@ -88,7 +88,7 @@ describe('Status Command Snapshot Tests', () => {
 
     const output: string[] = [];
     const originalLog = console.log;
-    console.log = (...args: any[]) => {
+    console.log = (...args: unknown[]) => {
       output.push(args.map(String).join(' '));
     };
 
@@ -117,7 +117,7 @@ describe('Status Command Snapshot Tests', () => {
 
     const output: string[] = [];
     const originalLog = console.log;
-    console.log = (...args: any[]) => {
+    console.log = (...args: unknown[]) => {
       output.push(args.map(String).join(' '));
     };
 
