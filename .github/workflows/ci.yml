@@ -107,6 +107,10 @@ jobs:
           cache: 'npm'
           cache-dependency-path: cli/package-lock.json
 
+      - name: Install dependencies (workspace)
+        run: npm install
+        working-directory: .
+
       - name: Install dependencies (CLI)
         run: npm install
         working-directory: cli
