@@ -1,0 +1,8 @@
+{
+  "name": "localization",
+  "version": "1.0.0",
+  "description": "Localization and i18n support plugin",
+  "author": "DoPlan Team",
+  "command": "localization",
+  "checksum": "sha256:def456..."
+}
