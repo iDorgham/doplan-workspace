@@ -97,9 +97,11 @@ async function initializeProject(options: InitOptions): Promise<void> {
   
   let projectName = name;
   let selectedStack = stack;
-  let initGit = git !== false && !skipGit;
-  let runInstall = install !== false && !skipInstall;
-  let runSetup = setup !== false && !skipSetup;
+  
+  // Handle skip flags: if skip-* is true, set to false and don't prompt
+  let initGit: boolean | undefined = skipGit ? false : (git !== undefined ? git : undefined);
+  let runInstall: boolean | undefined = skipInstall ? false : (install !== undefined ? install : undefined);
+  let runSetup: boolean | undefined = skipSetup ? false : (setup !== undefined ? setup : undefined);
 
   // Interactive prompts if not provided
   if (!projectName) {
@@ -122,6 +124,7 @@ async function initializeProject(options: InitOptions): Promise<void> {
       : 'custom';
   }
 
+  // Only prompt if not explicitly set (skip flags already set to false)
   if (initGit === undefined) {
     const gitInput = await prompt(cyan('Initialize Git repository? (Y/n): '));
     initGit = gitInput.toLowerCase() !== 'n';
