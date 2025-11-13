@@ -1,0 +1,6 @@
+{
+  "name": "/Run",
+  "description": "Start the application locally for manual QA and debugging.",
+  "command": "npm run doplan:run"
+}
+

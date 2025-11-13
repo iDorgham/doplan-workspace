@@ -1,0 +1,86 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "DoPlan CLI Configuration Schema",
+  "type": "object",
+  "properties": {
+    "projectRoot": {
+      "type": "string",
+      "description": "Root directory of the DoPlan workspace",
+      "default": "."
+    },
+    "noSpinner": {
+      "type": "boolean",
+      "description": "Disable spinner animations",
+      "default": false
+    },
+    "telemetry": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enable anonymous telemetry",
+          "default": false
+        },
+        "endpoint": {
+          "type": "string",
+          "description": "Telemetry endpoint URL",
+          "default": "https://telemetry.doplan.dev"
+        }
+      }
+    },
+    "assistants": {
+      "type": "object",
+      "properties": {
+        "default": {
+          "type": "string",
+          "enum": ["claude", "gemini", "openai", "none"],
+          "description": "Default AI assistant provider",
+          "default": "none"
+        },
+        "claude": {
+          "type": "object",
+          "properties": {
+            "apiKey": {
+              "type": "string",
+              "description": "Anthropic API key"
+            },
+            "model": {
+              "type": "string",
+              "default": "claude-3-5-sonnet-20241022"
+            }
+          }
+        },
+        "gemini": {
+          "type": "object",
+          "properties": {
+            "apiKey": {
+              "type": "string",
+              "description": "Google Gemini API key"
+            },
+            "model": {
+              "type": "string",
+              "default": "gemini-pro"
+            }
+          }
+        }
+      }
+    },
+    "plugins": {
+      "type": "object",
+      "properties": {
+        "registry": {
+          "type": "string",
+          "description": "Plugin registry URL",
+          "default": "https://doplan.dev/plugins.json"
+        },
+        "verifySignatures": {
+          "type": "boolean",
+          "description": "Verify plugin signatures",
+          "default": true
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}
+

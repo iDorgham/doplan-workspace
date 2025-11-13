@@ -1,0 +1,6 @@
+{
+  "name": "/Plan",
+  "description": "Generate the full plan, specs, dashboards, and MCP suggestions.",
+  "command": "npm run doplan:plan"
+}
+

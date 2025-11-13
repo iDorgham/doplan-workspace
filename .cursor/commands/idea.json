@@ -1,0 +1,6 @@
+{
+  "name": "/Idea",
+  "description": "Start the idea interview to capture requirements.",
+  "command": "npm run doplan:idea"
+}
+

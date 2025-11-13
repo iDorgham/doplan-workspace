@@ -1,0 +1,6 @@
+{
+  "name": "/Next",
+  "description": "Get the next recommended action based on current progress.",
+  "command": "npm run doplan:next"
+}
+
