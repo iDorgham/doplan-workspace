@@ -1,0 +1,56 @@
+name: Build
+
+on:
+  push:
+    branches: [main, phase-2-beta]
+  pull_request:
+    branches: [main, phase-2-beta]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build CLI
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        node-version: [20.x, 22.x]
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: cli/package-lock.json
+
+      - name: Install dependencies (workspace)
+        run: npm install
+        working-directory: .
+
+      - name: Install dependencies (CLI)
+        run: npm install
+        working-directory: cli
+
+      - name: Build CLI
+        run: npm run build
+        working-directory: cli
+
+      - name: Verify build output
+        run: |
+          if [ ! -f "cli/dist/index.js" ]; then
+            echo "Build failed: dist/index.js not found"
+            exit 1
+          fi
+          echo "Build successful"
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: cli-build-${{ matrix.os }}-node-${{ matrix.node-version }}
+          path: cli/dist/
+          retention-days: 7
+

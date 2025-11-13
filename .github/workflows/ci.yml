@@ -1,0 +1,126 @@
+name: CI
+
+on:
+  push:
+    branches: [main, phase-2-beta]
+  pull_request:
+    branches: [main, phase-2-beta]
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20.x, 22.x]
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: cli/package-lock.json
+
+      - name: Install dependencies (workspace)
+        run: npm install
+        working-directory: .
+
+      - name: Install dependencies (CLI)
+        run: npm install
+        working-directory: cli
+
+      - name: Run linter
+        run: npm run lint
+        working-directory: cli
+
+      - name: Check formatting
+        run: npm run format:check
+        working-directory: cli
+
+      - name: Build CLI
+        run: npm run build
+        working-directory: cli
+
+      - name: Run tests
+        run: npm test -- --run
+        working-directory: cli
+
+      - name: Upload test coverage
+        if: matrix.node-version == '22.x'
+        uses: codecov/codecov-action@v4
+        with:
+          files: ./cli/coverage/coverage-final.json
+          flags: cli
+          name: cli-coverage
+          fail_ci_if_error: false
+
+  integration:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.x'
+          cache: 'npm'
+          cache-dependency-path: cli/package-lock.json
+
+      - name: Install dependencies (workspace)
+        run: npm install
+        working-directory: .
+
+      - name: Install dependencies (CLI)
+        run: npm install
+        working-directory: cli
+
+      - name: Build CLI
+        run: npm run build
+        working-directory: cli
+
+      - name: Run integration tests
+        run: npm test -- --run src/__tests__/integration/
+        working-directory: cli
+
+  snapshot:
+    name: Snapshot Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.x'
+          cache: 'npm'
+          cache-dependency-path: cli/package-lock.json
+
+      - name: Install dependencies (CLI)
+        run: npm install
+        working-directory: cli
+
+      - name: Build CLI
+        run: npm run build
+        working-directory: cli
+
+      - name: Run snapshot tests
+        run: npm test -- --run src/__tests__/snapshots/
+        working-directory: cli
+
+      - name: Check snapshot changes
+        run: |
+          if [ -n "$(git status --porcelain cli/src/__tests__/snapshots/__snapshots__/)" ]; then
+            echo "Snapshot files have changed. Please review and commit if intentional."
+            git diff cli/src/__tests__/snapshots/__snapshots__/
+            exit 1
+          fi
+
