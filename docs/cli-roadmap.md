@@ -1,13 +1,15 @@
 # DoPlan CLI Roadmap
 
-## Status: Phase 0 Complete ✅
+## Status: Phase 1 Alpha Complete ✅ | Phase 2 Beta In Progress
 
-The TypeScript CLI package scaffold is complete with:
-- Full command suite (setup, idea, plan, next, progress, test, run, deploy, capacity, digest, mcp, party, watch)
-- TypeScript configuration and build setup
-- Configuration system with `doplan.config.json` support
-- Command executor that integrates with existing DoPlan workspace
-- Basic test infrastructure
+**Phase 1 Alpha:** Successfully published to npm as `doplan-cli@alpha`
+- Full command suite (13 commands) implemented and tested
+- Build system working with proper shebang injection
+- Comprehensive test suite (13/13 tests passing)
+- Published to npm registry
+- Documentation complete
+
+**Phase 2 Beta:** Starting implementation
 
 ## Phase 0 – Prep (Complete)
 
@@ -16,7 +18,7 @@ The TypeScript CLI package scaffold is complete with:
 ✅ Set up initial scripts: `npm run dev`, `npm run build`, `npm run test`  
 ✅ Defined `doplan.config.schema.json` for future config validation  
 
-## Phase 1 – Alpha (In Progress)
+## Phase 1 – Alpha (Complete ✅)
 
 **Goal:** Ship minimal TypeScript CLI wrapping existing DoPlan commands
 
@@ -25,12 +27,11 @@ The TypeScript CLI package scaffold is complete with:
 - ✅ Configuration support (`doplan.config.json` loading and merging)
 - ✅ Output utilities (minimal colors, progress bars)
 - ✅ Command executor integration with workspace
-
-### Remaining
-- [ ] Build and packaging setup (test `npm run build`)
-- [ ] Publish alpha version to npm
-- [ ] Smoke tests against fixture workspace
-- [ ] Update main README with CLI install instructions
+- ✅ Build and packaging setup (tested `npm run build`)
+- ✅ Published alpha version to npm (`doplan-cli@alpha`)
+- ✅ Smoke tests against fixture workspace (13/13 passing)
+- ✅ Updated main README with CLI install instructions
+- ✅ Created comprehensive documentation (installation, publishing guides)
 
 ## Phase 2 – Beta (Planned)
 
