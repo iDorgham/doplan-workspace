@@ -1,0 +1,6 @@
+{
+  "name": "/Capacity",
+  "description": "Analyse workload distribution and generate a capacity report.",
+  "command": "npm run doplan:capacity"
+}
+

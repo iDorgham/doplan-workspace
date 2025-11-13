@@ -1,0 +1,6 @@
+{
+  "name": "/Test",
+  "description": "Run the configured test suite.",
+  "command": "npm run doplan:test"
+}
+

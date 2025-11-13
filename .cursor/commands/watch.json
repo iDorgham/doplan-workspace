@@ -1,0 +1,6 @@
+{
+  "name": "/Watch",
+  "description": "Start the lifecycle change detector to sync docs and dashboards.",
+  "command": "npm run doplan:watch"
+}
+

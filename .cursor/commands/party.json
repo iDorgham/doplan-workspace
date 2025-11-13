@@ -1,0 +1,6 @@
+{
+  "name": "/Party",
+  "description": "Gather insights from all agents before running a command.",
+  "command": "npm run doplan:party"
+}
+

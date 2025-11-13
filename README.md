@@ -5,10 +5,12 @@ This repository houses the DoPlan workflow implementation for Cursor. The projec
 ## Getting Started
 
 1. Install Node.js 20 or newer.
-2. Run `/Setup` (or `npm run doplan:setup`) to install dependencies, verify Node version, configure Git remote, and seed `.env`.
-3. Run `/Idea` (add `--simple` for non-developers) to generate `idea-notes.md`. The question set lives in `.cursor/workflows/idea-interview.md`.
-4. Execute `/Plan` to generate `plan/`, specs, dashboards, context, and MCP suggestions.
-5. Use `/Next`, `/Progress`, `/Test`, `/Run`, `/Deploy`, `/Capacity`, `/Digest`, `/MCP`, `/Party`, and `/Watch` to stay on rails. All commands mirror CLI scripts (see table below).
+2. Install the dependencies: `npm install`.
+3. Run `/Setup` (or `npm run doplan:setup`) to install dependencies, verify Node version, configure Git remote, and seed `.env`.
+4. Run `/Idea` (add `--simple` for non-developers) to generate `idea-notes.md`. The question set lives in `.cursor/workflows/idea-interview.md`.
+5. Execute `/Plan` to generate `plan/`, specs, dashboards, context, and MCP suggestions.
+6. Use `/Next`, `/Progress`, `/Test`, `/Run`, `/Deploy`, `/Capacity`, `/Digest`, `/MCP`, `/Party`, and `/Watch` to stay on rails. All commands mirror CLI scripts (see table below).
+7. If slash commands don’t appear immediately in Cursor, run **Reload Window** (Cmd/Ctrl + Shift + P → “Reload Window”) so the new JSON command definitions are picked up.
 
 ## Command Matrix
 
@@ -66,12 +68,26 @@ This repository houses the DoPlan workflow implementation for Cursor. The projec
 - `plan/example-structure.md` (generated once `/Plan` runs) shows the expected hierarchy.
 - Reports and digests live in `plan/reports/` and `plan/digests/<date>/`.
 
-## Roadmap to CLI
+## CLI Package (Alpha)
 
-Phase two will package the workflow as a dedicated CLI. Planned capabilities:
+A TypeScript CLI package is available in `cli/` directory:
 
-- Installable `doplan` binary wrapping the `scripts/doplan-cli.js` entry point.
-- Project scaffolding command (`doplan create`) to copy the `.cursor` suite into new repos.
-- Telemetry opt-in for command usage analytics.
-- Plugin marketplace integration for discoverable add-ons.
+```bash
+cd cli
+npm install
+npm run build
+npm run dev  # Test locally
+```
+
+**Status:** Phase 0 complete - CLI scaffold ready. See `docs/cli-roadmap.md` for full roadmap.
+
+**Future Installation:**
+```bash
+npm install -g @doplan/cli
+doplan setup
+doplan idea
+doplan plan
+```
+
+The CLI mirrors all slash commands and integrates with the existing DoPlan workspace.
 

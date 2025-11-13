@@ -1,0 +1,6 @@
+{
+  "name": "/MCP",
+  "description": "List, suggest, or apply MCP server integrations.",
+  "command": "npm run doplan:mcp"
+}
+
