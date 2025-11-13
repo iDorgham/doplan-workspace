@@ -1,10 +1,16 @@
 {
-  "stage": "INIT",
+  "stage": "ONBOARDED",
   "currentPhase": null,
   "currentFeature": null,
-  "ideaData": null,
-  "completedCommands": [],
-  "lastCommand": null,
-  "lastUpdated": null
+  "ideaData": {
+    "mode": "detailed",
+    "scopeMode": "undecided",
+    "notesPath": "/Users/Dorgham/Documents/Work/Devleopment/Cursor/idea-notes.md"
+  },
+  "completedCommands": [
+    "setup",
+    "idea"
+  ],
+  "lastCommand": "setup",
+  "lastUpdated": "2025-11-13T12:33:49.184Z"
 }
-

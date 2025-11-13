@@ -1,0 +1,161 @@
+name: CI
+
+on:
+  push:
+    branches: [main, phase-2-beta]
+  pull_request:
+    branches: [main, phase-2-beta]
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20.x, 22.x]
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: cli/package-lock.json
+
+      - name: Install dependencies (workspace)
+        run: npm install
+        working-directory: .
+
+      - name: Install dependencies (CLI)
+        run: npm install
+        working-directory: cli
+
+      - name: Run linter
+        run: npm run lint || true
+        working-directory: cli
+        continue-on-error: true
+
+      - name: Check formatting
+        run: npm run format:check
+        working-directory: cli
+
+      - name: Build CLI
+        run: npm run build
+        working-directory: cli
+
+      - name: Run tests
+        env:
+          CI: true
+          NO_COLOR: 1
+        run: npm test -- --run
+        working-directory: cli
+
+      - name: Upload test coverage
+        if: matrix.node-version == '22.x'
+        uses: codecov/codecov-action@v4
+        with:
+          files: ./cli/coverage/coverage-final.json
+          flags: cli
+          name: cli-coverage
+          fail_ci_if_error: false
+          token: ${{ secrets.CODECOV_TOKEN }}
+        continue-on-error: true
+
+  integration:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.x'
+          cache: 'npm'
+          cache-dependency-path: cli/package-lock.json
+
+      - name: Install dependencies (workspace)
+        run: npm install
+        working-directory: .
+
+      - name: Install dependencies (CLI)
+        run: npm install
+        working-directory: cli
+
+      - name: Build CLI
+        run: npm run build
+        working-directory: cli
+
+      - name: Run integration tests
+        run: npm test -- --run src/__tests__/integration/
+        working-directory: cli
+
+  snapshot:
+    name: Snapshot Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0  # Fetch full history
+
+      - name: Verify git commit
+        run: |
+          echo "Current commit: $(git rev-parse HEAD)"
+          echo "Commit message: $(git log -1 --pretty=%B)"
+          echo "Files changed:"
+          git diff HEAD~1 HEAD --name-only | grep -E "(progress|digest|snapshot)" || echo "No recent changes to test files"
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.x'
+          cache: 'npm'
+          cache-dependency-path: cli/package-lock.json
+
+      - name: Install dependencies (workspace)
+        run: npm install
+        working-directory: .
+
+      - name: Install dependencies (CLI)
+        run: npm install
+        working-directory: cli
+
+      - name: Build CLI
+        run: npm run build
+        working-directory: cli
+
+      - name: Verify build output
+        run: |
+          if [ -f "cli/dist/commands/progress.js" ]; then
+            echo "✓ Build successful"
+            grep -q "console.log('')" cli/dist/commands/progress.js && echo "✓ Empty string log found in progress.js" || echo "✗ Empty string log NOT found"
+          else
+            echo "✗ Build failed"
+            exit 1
+          fi
+
+      - name: Run snapshot tests
+        env:
+          CI: true
+          NO_COLOR: 1
+          FORCE_COLOR: 0
+        run: npm test -- --run src/__tests__/snapshots/ --reporter=verbose
+        working-directory: cli
+
+      - name: Check snapshot changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if [ -n "$(git status --porcelain cli/src/__tests__/snapshots/__snapshots__/ 2>/dev/null || true)" ]; then
+            echo "Snapshot files have changed. Please review and commit if intentional."
+            git diff cli/src/__tests__/snapshots/__snapshots__/ || true
+            exit 1
+          fi
+

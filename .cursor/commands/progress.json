@@ -1,0 +1,6 @@
+{
+  "name": "/Progress",
+  "description": "Refresh dashboards and panel feeds to reflect latest status.",
+  "command": "npm run doplan:progress"
+}
+

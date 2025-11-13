@@ -1,0 +1,74 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Status Command Snapshot Tests > should display brief status correctly 1`] = `
+"Overall Progress: [█████████░░░░░░░░░░░] 45%
+Phases: 2
+Features: 1/3 complete
+Next: /Next"
+`;
+
+exports[`Status Command Snapshot Tests > should display full status correctly 1`] = `
+"
+╔════════════════════════════════════════╗
+║        DoPlan Progress Dashboard       ║
+╚════════════════════════════════════════╝
+
+Overall Progress
+[██████████████████░░░░░░░░░░░░░░░░░░░░░░] 45%
+
+Phase 1: Phase 1: Discovery
+[█████████████████████░░░░░░░░░░░░░░] 60%
+Status: In Progress
+
+  Features:
+    • User Research
+      [█████████████████████████] 100% Completed
+    • Competitive Analysis
+      [█████░░░░░░░░░░░░░░░░░░░░] 20% In Progress
+
+Phase 2: Phase 2: MVP Build
+[░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░] 0%
+Status: Not Started
+
+  Features:
+    • Authentication
+      [░░░░░░░░░░░░░░░░░░░░░░░░░] 0% Not Started
+
+→ Next Action: /Next
+"
+`;
+
+exports[`Status Command Snapshot Tests > should handle completed project 1`] = `
+"
+╔════════════════════════════════════════╗
+║        DoPlan Progress Dashboard       ║
+╚════════════════════════════════════════╝
+
+Overall Progress
+[████████████████████████████████████████] 100%
+
+Phase 1: Phase 1: Discovery
+[███████████████████████████████████] 100%
+Status: Completed
+
+  Features:
+    • User Research
+      [█████████████████████████] 100% Completed
+    • Competitive Analysis
+      [█████████████████████████] 100% Completed
+
+→ Next Action: /Deploy
+"
+`;
+
+exports[`Status Command Snapshot Tests > should handle empty phases 1`] = `
+"
+╔════════════════════════════════════════╗
+║        DoPlan Progress Dashboard       ║
+╚════════════════════════════════════════╝
+
+Overall Progress
+[░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░] 0%
+
+No phases found. Run \`doplan plan\` to generate a plan."
+`;

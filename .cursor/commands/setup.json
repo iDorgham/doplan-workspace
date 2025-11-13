@@ -1,0 +1,6 @@
+{
+  "name": "/Setup",
+  "description": "Bootstrap environment (install deps, check Node, configure Git, seed env).",
+  "command": "npm run doplan:setup"
+}
+
