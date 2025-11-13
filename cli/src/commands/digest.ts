@@ -131,7 +131,13 @@ export function digestCommand(program: Command) {
       try {
         // Call the workspace digest command to generate the summary
         // We'll parse it from the output or regenerate it
-        await executeCommand('digest', { ...options, ...config, write: true });
+        // Only pass write flag if explicitly requested
+        const execOptions: any = { ...config };
+        if (options.write) {
+          execOptions.write = true;
+        }
+        // Don't pass preview to workspace command, handle it locally
+        await executeCommand('digest', { ...execOptions, audience: audiences.join(',') });
         
         // Try to load the generated digest
         const existingContent = await loadExistingDigest(projectRoot, audiences[0]);
