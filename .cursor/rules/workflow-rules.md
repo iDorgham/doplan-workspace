@@ -45,6 +45,13 @@ These rules govern how Cursor should operate within the DoPlan workspace.
 - If diagnostics fail, surface remediation steps before recommending the next command.
 - Persist all generated reports (capacity, digests, etc.) inside the `plan/` directory for auditability.
 
+## Documentation Storage
+
+- Save any manually created documentation, research, or design notes inside the `/docs/` directory.
+- Organise `/docs/` with subfolders when needed (e.g., `docs/research`, `docs/design`).
+- Avoid storing long-form docs alongside source files unless a command explicitly generates them elsewhere.
+- Use descriptive, kebab-case filenames (e.g., `docs/research/user-persona-study.md`). Include dates when helpful (`docs/reports/2025-01-14-weekly-digest.md`).
+
 ## Context Files
 
 - Maintain `.cursor/context/context.md` with stack, documentation links, and MCP recommendations.

@@ -10,7 +10,7 @@
   "scripts": {
     "dev": "tsx src/index.ts",
     "build": "tsc -p tsconfig.build.json && npm run postbuild",
-    "postbuild": "node -e \"const fs=require('fs');const f='dist/index.js';const c=fs.readFileSync(f,'utf8');fs.writeFileSync(f,'#!/usr/bin/env node\\n'+c)\"",
+    "postbuild": "node -e \"const fs=require('fs');const f='dist/index.js';const c=fs.readFileSync(f,'utf8');if(!c.startsWith('#!/usr/bin/env node')){fs.writeFileSync(f,'#!/usr/bin/env node\\n'+c)}\"",
     "test": "vitest",
     "lint": "eslint src --ext .ts",
     "lint:fix": "eslint src --ext .ts --fix",
@@ -22,13 +22,30 @@
     "cli",
     "workflow",
     "planning",
-    "development"
+    "development",
+    "cursor",
+    "ai",
+    "productivity"
   ],
-  "author": "",
+  "author": "DoPlan Team",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iDorgham/doplan-workspace.git",
+    "directory": "cli"
+  },
+  "bugs": {
+    "url": "https://github.com/iDorgham/doplan-workspace/issues"
+  },
+  "homepage": "https://doplan.dev",
   "engines": {
     "node": ">=20.0.0"
   },
+  "files": [
+    "dist",
+    "README.md",
+    "doplan.config.schema.json"
+  ],
   "dependencies": {
     "colorette": "^2.0.20",
     "commander": "^11.1.0",

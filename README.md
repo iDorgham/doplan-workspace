@@ -70,24 +70,72 @@ This repository houses the DoPlan workflow implementation for Cursor. The projec
 
 ## CLI Package (Alpha)
 
-A TypeScript CLI package is available in `cli/` directory:
+A TypeScript CLI package is available in `cli/` directory. The CLI provides the same functionality as slash commands but can be used from any terminal.
+
+### Local Development
 
 ```bash
 cd cli
 npm install
 npm run build
-npm run dev  # Test locally
+npm run dev -- --help  # Test locally
 ```
 
-**Status:** Phase 0 complete - CLI scaffold ready. See `docs/cli-roadmap.md` for full roadmap.
+### Installation (Alpha)
 
-**Future Installation:**
 ```bash
+# From npm (when published)
 npm install -g @doplan/cli
+
+# Or use locally
+cd cli
+npm link  # Requires sudo or npm config prefix setup
+```
+
+### Usage
+
+Once installed, use `doplan` command:
+
+```bash
 doplan setup
 doplan idea
 doplan plan
+doplan next
+doplan status
 ```
 
-The CLI mirrors all slash commands and integrates with the existing DoPlan workspace.
+All commands support `--help` for detailed usage information.
+
+### Configuration
+
+Create `doplan.config.json` in your project root:
+
+```json
+{
+  "projectRoot": ".",
+  "noSpinner": false,
+  "telemetry": {
+    "enabled": false
+  }
+}
+```
+
+### Troubleshooting
+
+**Command not found:**
+- Ensure CLI is installed globally: `npm install -g @doplan/cli`
+- Or use `npx @doplan/cli` instead
+- Check PATH includes npm global bin directory
+
+**Build errors:**
+- Ensure Node.js 20+ is installed: `node -v`
+- Run `npm install` in `cli/` directory
+- Check TypeScript is installed: `npm list typescript`
+
+**Tests failing:**
+- Run `npm test` from `cli/` directory
+- Ensure workspace has `.cursor/` structure
+- Check fixture workspace is created correctly
+
+**Status:** Phase 1 Alpha in progress - CLI fully functional. See `docs/cli-roadmap.md` for full roadmap.
 
