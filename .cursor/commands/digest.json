@@ -1,0 +1,6 @@
+{
+  "name": "/Digest",
+  "description": "Generate stakeholder digests for exec, product, and engineering audiences.",
+  "command": "npm run doplan:digest"
+}
+

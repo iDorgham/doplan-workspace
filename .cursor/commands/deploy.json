@@ -1,0 +1,6 @@
+{
+  "name": "/Deploy",
+  "description": "Run build and deployment pipeline with safety checks.",
+  "command": "npm run doplan:deploy"
+}
+

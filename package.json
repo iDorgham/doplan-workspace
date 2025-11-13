@@ -18,7 +18,8 @@
     "doplan:party": "node scripts/doplan-cli.js party",
     "doplan:watch": "node scripts/doplan-cli.js watch",
     "generate-plan": "node scripts/doplan-cli.js plan --generate-only",
-    "update-progress": "node scripts/doplan-cli.js progress --refresh"
+    "update-progress": "node scripts/doplan-cli.js progress --refresh",
+    "phase:branch": "node scripts/create-phase-branch.js"
   },
   "dependencies": {
     "chokidar": "^3.5.3",
