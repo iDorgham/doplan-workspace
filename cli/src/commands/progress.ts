@@ -182,9 +182,15 @@ export function progressCommand(program: Command) {
       // First, refresh the dashboards by calling the workspace command
       try {
         await executeCommand('progress', { ...options, ...config });
-      } catch (error) {
+      } catch (error: any) {
         // If workspace command fails, continue with reading existing data
-        console.warn(yellow('Warning: Could not refresh dashboards. Showing cached data.'));
+        // This is expected behavior - we want to show cached data if refresh fails
+        if (error.code !== undefined) {
+          console.warn(yellow('Warning: Could not refresh dashboards. Showing cached data.'));
+        } else {
+          // Re-throw unexpected errors
+          throw error;
+        }
       }
 
       // Load and display progress data

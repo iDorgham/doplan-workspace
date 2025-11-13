@@ -24,8 +24,10 @@ export async function executeCommand(
   // Check if workspace exists
   const { existsSync } = await import('fs');
   if (!existsSync(workspacePath)) {
-    console.error(red('✗ DoPlan workspace not found. Run `doplan init` first.'));
-    process.exit(1);
+    const error = new Error('DoPlan workspace not found. Run `doplan init` first.');
+    (error as any).code = 1;
+    (error as any).workspaceNotFound = true;
+    throw error;
   }
 
   // Build command arguments
@@ -77,10 +79,16 @@ export async function executeCommand(
   } catch (error: any) {
     success = false;
     if (spinner) spinner.fail(red(`✗ ${command} failed`));
-    console.error(red(`Error: ${error.message}`));
-    if (error.stdout) console.error(error.stdout);
-    if (error.stderr) console.error(error.stderr);
-    process.exit(error.code || 1);
+    
+    // Create error object with all relevant information
+    const commandError = new Error(error.message || 'Command execution failed');
+    (commandError as any).code = error.code || 1;
+    (commandError as any).stdout = error.stdout;
+    (commandError as any).stderr = error.stderr;
+    (commandError as any).command = command;
+    
+    // Throw error instead of exiting, let caller decide how to handle
+    throw commandError;
   } finally {
     // Record telemetry event
     if (isTelemetryEnabled()) {

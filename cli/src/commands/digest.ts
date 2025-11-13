@@ -140,8 +140,15 @@ export function digestCommand(program: Command) {
           if (existingContent) {
             summary = parseDigestContent(existingContent);
           }
-        } catch (error) {
-          console.warn(yellow('Warning: Could not generate digest from workspace.'));
+        } catch (error: any) {
+          // If workspace command fails, continue with generating summary locally
+          // This is expected behavior - we want to show preview even if write fails
+          if (error.code !== undefined) {
+            console.warn(yellow('Warning: Could not generate digest from workspace.'));
+          } else {
+            // Re-throw unexpected errors
+            throw error;
+          }
         }
       }
       

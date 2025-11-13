@@ -56,5 +56,15 @@ mcpCommand(program);
 partyCommand(program);
 watchCommand(program);
 
+// Handle unhandled promise rejections
+process.on('unhandledRejection', (error: any) => {
+  console.error(error.message || 'An unexpected error occurred');
+  if (error.code !== undefined) {
+    process.exit(error.code);
+  } else {
+    process.exit(1);
+  }
+});
+
 program.parse();
 
