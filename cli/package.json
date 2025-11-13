@@ -1,5 +1,5 @@
 {
-  "name": "@doplan/cli",
+  "name": "doplan-cli",
   "version": "0.1.0-alpha",
   "description": "DoPlan CLI - Command-line interface for DoPlan workflow",
   "type": "commonjs",
@@ -31,7 +31,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/iDorgham/doplan-workspace.git",
+    "url": "git+https://github.com/iDorgham/doplan-workspace.git",
     "directory": "cli"
   },
   "bugs": {

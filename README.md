@@ -84,8 +84,8 @@ npm run dev -- --help  # Test locally
 ### Installation (Alpha)
 
 ```bash
-# From npm (when published)
-npm install -g @doplan/cli
+# From npm
+npm install -g doplan-cli@alpha
 
 # Or use locally
 cd cli
@@ -123,8 +123,8 @@ Create `doplan.config.json` in your project root:
 ### Troubleshooting
 
 **Command not found:**
-- Ensure CLI is installed globally: `npm install -g @doplan/cli`
-- Or use `npx @doplan/cli` instead
+- Ensure CLI is installed globally: `npm install -g doplan-cli@alpha`
+- Or use `npx doplan-cli@alpha` instead
 - Check PATH includes npm global bin directory
 
 **Build errors:**

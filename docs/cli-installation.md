@@ -11,7 +11,7 @@
 ### Method 1: Global Installation (Recommended)
 
 ```bash
-npm install -g @doplan/cli
+npm install -g doplan-cli@alpha
 ```
 
 After installation, verify:
@@ -35,8 +35,8 @@ npm link  # Optional: link globally for development
 ### Method 3: Using npx (No Installation)
 
 ```bash
-npx @doplan/cli setup
-npx @doplan/cli idea
+npx doplan-cli@alpha setup
+npx doplan-cli@alpha idea
 ```
 
 ## Verification
@@ -99,13 +99,13 @@ CLI respects workspace configuration in `.cursor/config/workflow-config.json`.
 
 2. Use npx instead:
    ```bash
-   npx @doplan/cli <command>
+   npx doplan-cli@alpha <command>
    ```
 
 3. Reinstall globally:
    ```bash
-   npm uninstall -g @doplan/cli
-   npm install -g @doplan/cli
+   npm uninstall -g doplan-cli
+   npm install -g doplan-cli@alpha
    ```
 
 ### Permission Errors
@@ -160,7 +160,7 @@ CLI respects workspace configuration in `.cursor/config/workflow-config.json`.
 ## Uninstallation
 
 ```bash
-npm uninstall -g @doplan/cli
+npm uninstall -g doplan-cli
 ```
 
 ## Next Steps
