@@ -47,6 +47,9 @@ jobs:
         working-directory: cli
 
       - name: Run tests
+        env:
+          CI: true
+          NO_COLOR: 1
         run: npm test -- --run
         working-directory: cli
 
@@ -99,6 +102,15 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
+        with:
+          fetch-depth: 0  # Fetch full history
+
+      - name: Verify git commit
+        run: |
+          echo "Current commit: $(git rev-parse HEAD)"
+          echo "Commit message: $(git log -1 --pretty=%B)"
+          echo "Files changed:"
+          git diff HEAD~1 HEAD --name-only | grep -E "(progress|digest|snapshot)" || echo "No recent changes to test files"
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -119,8 +131,22 @@ jobs:
         run: npm run build
         working-directory: cli
 
+      - name: Verify build output
+        run: |
+          if [ -f "cli/dist/commands/progress.js" ]; then
+            echo "✓ Build successful"
+            grep -q "console.log('')" cli/dist/commands/progress.js && echo "✓ Empty string log found in progress.js" || echo "✗ Empty string log NOT found"
+          else
+            echo "✗ Build failed"
+            exit 1
+          fi
+
       - name: Run snapshot tests
-        run: npm test -- --run src/__tests__/snapshots/
+        env:
+          CI: true
+          NO_COLOR: 1
+          FORCE_COLOR: 0
+        run: npm test -- --run src/__tests__/snapshots/ --reporter=verbose
         working-directory: cli
 
       - name: Check snapshot changes
