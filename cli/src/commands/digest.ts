@@ -5,7 +5,7 @@ import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'fs';
 import { join } from 'path';
 import { executeCommand } from '../utils/command-executor';
 
-interface DigestSummary {
+export interface DigestSummary {
   highlights: string[];
   risks: string[];
   nextSteps: string[];
@@ -15,7 +15,7 @@ function getDateSlug(date: Date): string {
   return date.toISOString().slice(0, 10);
 }
 
-function buildDigestContent(audience: string, summary: DigestSummary): string {
+export function buildDigestContent(audience: string, summary: DigestSummary): string {
   const intro =
     audience === 'exec'
       ? 'High-level progress overview'
@@ -49,7 +49,7 @@ function buildDigestContent(audience: string, summary: DigestSummary): string {
   ].join('\n');
 }
 
-function displayDigestPreview(audience: string, content: string): void {
+export function displayDigestPreview(audience: string, content: string): void {
   const titleColor = audience === 'exec' ? green : audience === 'product' ? blue : cyan;
   
   console.log(titleColor('\n╔════════════════════════════════════════╗'));

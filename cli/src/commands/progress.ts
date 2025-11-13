@@ -5,7 +5,7 @@ import { existsSync, readFileSync } from 'fs';
 import { join } from 'path';
 import { executeCommand } from '../utils/command-executor';
 
-interface Phase {
+export interface Phase {
   name: string;
   status: string;
   progress: number;
@@ -13,14 +13,14 @@ interface Phase {
   folder?: string;
 }
 
-interface Feature {
+export interface Feature {
   name: string;
   status: string;
   progress: number;
   folder?: string;
 }
 
-interface StatusData {
+export interface StatusData {
   overallProgress: number;
   phases: Phase[];
   nextAction?: string;
@@ -43,7 +43,7 @@ function formatStatus(status: string): string {
   return colorFn(status);
 }
 
-async function loadProgressData(projectRoot: string): Promise<StatusData | null> {
+export async function loadProgressData(projectRoot: string): Promise<StatusData | null> {
   // Try to load from status.json panel
   const statusJsonPath = join(projectRoot, '.cursor', 'panels', 'status.json');
   if (existsSync(statusJsonPath)) {
@@ -118,7 +118,7 @@ function parseDashboardMarkdown(content: string): StatusData {
   return { overallProgress, phases };
 }
 
-function displayBriefStatus(data: StatusData): void {
+export function displayBriefStatus(data: StatusData): void {
   console.log(`${green('Overall Progress:')} ${renderBar(data.overallProgress, 20)}`);
   console.log(`${cyan('Phases:')} ${data.phases.length}`);
   const totalFeatures = data.phases.reduce((acc, p) => acc + p.features.length, 0);
@@ -132,7 +132,7 @@ function displayBriefStatus(data: StatusData): void {
   }
 }
 
-function displayFullStatus(data: StatusData): void {
+export function displayFullStatus(data: StatusData): void {
   console.log(cyan('\n╔════════════════════════════════════════╗'));
   console.log(cyan('║        DoPlan Progress Dashboard       ║'));
   console.log(cyan('╚════════════════════════════════════════╝\n'));

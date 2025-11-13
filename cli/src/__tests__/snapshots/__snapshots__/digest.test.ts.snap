@@ -1,0 +1,171 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Digest Command Snapshot Tests > should build digest content correctly > dev-digest-content 1`] = `
+"# DoPlan Digest — DEV
+
+_Engineering delivery notes_
+
+## Highlights
+- Feature A completed
+
+## Risks
+- Feature B blocked
+
+## Next Steps
+- Continue with Feature C
+
+## Requests / Decisions Needed
+- [ ] Decision 1
+- [ ] Decision 2"
+`;
+
+exports[`Digest Command Snapshot Tests > should build digest content correctly > exec-digest-content 1`] = `
+"# DoPlan Digest — EXEC
+
+_High-level progress overview_
+
+## Highlights
+- Feature A completed
+
+## Risks
+- Feature B blocked
+
+## Next Steps
+- Continue with Feature C
+
+## Requests / Decisions Needed
+- [ ] Decision 1
+- [ ] Decision 2"
+`;
+
+exports[`Digest Command Snapshot Tests > should build digest content correctly > product-digest-content 1`] = `
+"# DoPlan Digest — PRODUCT
+
+_Product and experience update_
+
+## Highlights
+- Feature A completed
+
+## Risks
+- Feature B blocked
+
+## Next Steps
+- Continue with Feature C
+
+## Requests / Decisions Needed
+- [ ] Decision 1
+- [ ] Decision 2"
+`;
+
+exports[`Digest Command Snapshot Tests > should display dev digest preview correctly 1`] = `
+"
+╔════════════════════════════════════════╗
+║   DoPlan Digest — DEV                  ║
+╚════════════════════════════════════════╝
+
+_Engineering delivery notes_
+
+Highlights
+────────────────────────────────────────
+  • Authentication API: Implemented
+  • Database migrations: Completed
+
+Risks
+────────────────────────────────────────
+  • Performance testing: Blocked on infrastructure
+
+Next Steps
+────────────────────────────────────────
+  • Implement user dashboard
+  • Add error handling
+
+Requests / Decisions Needed
+────────────────────────────────────────
+  • [ ] Decision 1
+  • [ ] Decision 2
+"
+`;
+
+exports[`Digest Command Snapshot Tests > should display exec digest preview correctly 1`] = `
+"
+╔════════════════════════════════════════╗
+║   DoPlan Digest — EXEC                 ║
+╚════════════════════════════════════════╝
+
+_High-level progress overview_
+
+Highlights
+────────────────────────────────────────
+  • Phase 1: Discovery: 2 feature(s) complete
+  • Phase 2: MVP Build: 1 feature(s) complete
+
+Risks
+────────────────────────────────────────
+  • Phase 1: Discovery: 1 blocked feature(s)
+
+Next Steps
+────────────────────────────────────────
+  • Phase 1: Discovery: Continue with User Research, Competitive Analysis
+  • Phase 2: MVP Build: Continue with Authentication
+
+Requests / Decisions Needed
+────────────────────────────────────────
+  • [ ] Decision 1
+  • [ ] Decision 2
+"
+`;
+
+exports[`Digest Command Snapshot Tests > should display product digest preview correctly 1`] = `
+"
+╔════════════════════════════════════════╗
+║   DoPlan Digest — PRODUCT              ║
+╚════════════════════════════════════════╝
+
+_Product and experience update_
+
+Highlights
+────────────────────────────────────────
+  • User Research: Completed
+  • Competitive Analysis: In Progress
+
+Risks
+────────────────────────────────────────
+  • No risks flagged.
+
+Next Steps
+────────────────────────────────────────
+  • Continue with Authentication feature
+
+Requests / Decisions Needed
+────────────────────────────────────────
+  • [ ] Decision 1
+  • [ ] Decision 2
+"
+`;
+
+exports[`Digest Command Snapshot Tests > should handle empty digest 1`] = `
+"
+╔════════════════════════════════════════╗
+║   DoPlan Digest — EXEC                 ║
+╚════════════════════════════════════════╝
+
+_High-level progress overview_
+
+Highlights
+────────────────────────────────────────
+  • None recorded.
+
+Risks
+────────────────────────────────────────
+  • No risks flagged.
+
+Next Steps
+────────────────────────────────────────
+  • Continue monitoring progress.
+
+Requests / Decisions Needed
+────────────────────────────────────────
+  • [ ] Decision 1
+  • [ ] Decision 2
+"
+`;
