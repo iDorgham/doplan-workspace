@@ -4,6 +4,7 @@ import { join } from 'path';
 import { green, red, yellow } from 'colorette';
 import ora from 'ora';
 import { DoPlanConfig } from '../config';
+import { recordEvent, getVersion, isTelemetryEnabled } from './telemetry';
 
 const execAsync = promisify(exec);
 
@@ -15,6 +16,7 @@ export async function executeCommand(
   command: string,
   options: CommandOptions
 ): Promise<void> {
+  const startTime = Date.now();
   const { projectRoot, noSpinner, json } = options;
   const workspacePath = join(projectRoot, '.cursor');
   const scriptPath = join(projectRoot, 'scripts', 'doplan-cli.js');
@@ -49,6 +51,7 @@ export async function executeCommand(
 
   const commandStr = `node ${scriptPath} ${args.join(' ')}`;
   const spinner = noSpinner ? null : ora(`Running ${command}...`).start();
+  let success = false;
 
   try {
     const { stdout, stderr } = await execAsync(commandStr, {
@@ -56,6 +59,7 @@ export async function executeCommand(
       env: { ...process.env, DOPLAN_CLI: 'true' },
     });
 
+    success = true;
     if (spinner) spinner.succeed(green(`✓ ${command} completed`));
 
     if (json) {
@@ -71,11 +75,24 @@ export async function executeCommand(
       if (stderr) console.warn(yellow(stderr));
     }
   } catch (error: any) {
+    success = false;
     if (spinner) spinner.fail(red(`✗ ${command} failed`));
     console.error(red(`Error: ${error.message}`));
     if (error.stdout) console.error(error.stdout);
     if (error.stderr) console.error(error.stderr);
     process.exit(error.code || 1);
+  } finally {
+    // Record telemetry event
+    if (isTelemetryEnabled()) {
+      const duration = Date.now() - startTime;
+      await recordEvent({
+        command,
+        duration,
+        version: getVersion(),
+        success,
+        timestamp: new Date().toISOString(),
+      });
+    }
   }
 }
 

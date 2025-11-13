@@ -1,6 +1,7 @@
 import { Command } from 'commander';
 import { loadConfig } from '../config';
 import { executeCommand } from '../utils/command-executor';
+import { promptForTelemetry } from '../utils/telemetry';
 
 export function setupCommand(program: Command) {
   program
@@ -10,6 +11,10 @@ export function setupCommand(program: Command) {
     .option('--skip-git', 'Skip Git configuration')
     .action(async (options) => {
       const config = loadConfig(program.opts());
+      
+      // Prompt for telemetry on first setup
+      await promptForTelemetry();
+      
       await executeCommand('setup', { ...options, ...config });
     });
 }
