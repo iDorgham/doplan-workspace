@@ -1,5 +1,7 @@
 # DoPlan Workspace
 
+![CI](https://github.com/iDorgham/doplan-workspace/workflows/CI/badge.svg)
+
 This repository houses the DoPlan workflow implementation for Cursor. The project keeps humans and agents aligned from idea to deployment.
 
 ## Getting Started
