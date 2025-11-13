@@ -125,41 +125,35 @@ export function digestCommand(program: Command) {
       const audience = options.audience || 'exec';
       const audiences = audience.split(',').map((a: string) => a.trim());
 
-      // Generate digest by calling workspace command
+      // Generate digest summary
       let summary: DigestSummary | null = null;
       
-      try {
-        // Call the workspace digest command to generate the summary
-        // We'll parse it from the output or regenerate it
-        // Only pass write flag if explicitly requested
-        const execOptions: any = { ...config };
-        if (options.write) {
+      if (options.write) {
+        // For write mode, call workspace command to generate files
+        try {
+          const execOptions: any = { ...config };
           execOptions.write = true;
+          await executeCommand('digest', { ...execOptions, audience: audiences.join(',') });
+          
+          // Load the generated digest to parse summary
+          const existingContent = await loadExistingDigest(projectRoot, audiences[0]);
+          if (existingContent) {
+            summary = parseDigestContent(existingContent);
+          }
+        } catch (error) {
+          console.warn(yellow('Warning: Could not generate digest from workspace.'));
         }
-        // Don't pass preview to workspace command, handle it locally
-        await executeCommand('digest', { ...execOptions, audience: audiences.join(',') });
-        
-        // Try to load the generated digest
+      }
+      
+      // If no summary yet, try to load existing or create basic one
+      if (!summary) {
         const existingContent = await loadExistingDigest(projectRoot, audiences[0]);
         if (existingContent) {
           summary = parseDigestContent(existingContent);
+        } else {
+          // Generate basic summary from progress data
+          summary = await generateSummaryFromProgress(projectRoot);
         }
-      } catch (error) {
-        // If workspace command fails, create a basic summary
-        console.warn(yellow('Warning: Could not generate digest from workspace. Creating basic summary.'));
-        summary = {
-          highlights: ['Project initialized'],
-          risks: [],
-          nextSteps: ['Run `doplan plan` to generate project plan'],
-        };
-      }
-
-      if (!summary) {
-        summary = {
-          highlights: [],
-          risks: [],
-          nextSteps: [],
-        };
       }
 
       // Display preview
@@ -187,6 +181,56 @@ export function digestCommand(program: Command) {
         console.log(yellow('\nTip: Use --write to save digest files to plan/digests/'));
       }
     });
+}
+
+async function generateSummaryFromProgress(projectRoot: string): Promise<DigestSummary> {
+  // Try to load progress data and generate summary
+  const statusJsonPath = join(projectRoot, '.cursor', 'panels', 'status.json');
+  const summary: DigestSummary = {
+    highlights: [],
+    risks: [],
+    nextSteps: [],
+  };
+
+  if (existsSync(statusJsonPath)) {
+    try {
+      const statusData = JSON.parse(readFileSync(statusJsonPath, 'utf-8'));
+      const phases = statusData.phases || [];
+      
+      phases.forEach((phase: any) => {
+        const completedFeatures = (phase.features || []).filter((f: any) => f.status === 'Completed');
+        if (completedFeatures.length > 0) {
+          summary.highlights.push(
+            `${phase.name}: ${completedFeatures.length} feature(s) complete`
+          );
+        }
+
+        const blocked = (phase.features || []).filter((f: any) => f.status === 'Blocked');
+        if (blocked.length > 0) {
+          summary.risks.push(
+            `${phase.name}: ${blocked.length} blocked feature(s)`
+          );
+        }
+
+        const inProgress = (phase.features || []).filter(
+          (f: any) => f.status === 'In Progress' || (f.progress > 0 && f.progress < 100)
+        );
+        if (inProgress.length > 0) {
+          summary.nextSteps.push(
+            `${phase.name}: Continue with ${inProgress.slice(0, 2).map((f: any) => f.name).join(', ')}`
+          );
+        }
+      });
+    } catch (error) {
+      // Use default summary
+    }
+  }
+
+  if (summary.highlights.length === 0 && summary.risks.length === 0 && summary.nextSteps.length === 0) {
+    summary.nextSteps.push('Run `doplan plan` to generate project plan');
+  }
+
+  return summary;
 }
 
 function parseDigestContent(content: string): DigestSummary {
