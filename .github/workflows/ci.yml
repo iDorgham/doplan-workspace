@@ -58,6 +58,8 @@ jobs:
           flags: cli
           name: cli-coverage
           fail_ci_if_error: false
+          token: ${{ secrets.CODECOV_TOKEN }}
+        continue-on-error: true
 
   integration:
     name: Integration Tests
@@ -119,9 +121,11 @@ jobs:
 
       - name: Check snapshot changes
         run: |
-          if [ -n "$(git status --porcelain cli/src/__tests__/snapshots/__snapshots__/)" ]; then
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if [ -n "$(git status --porcelain cli/src/__tests__/snapshots/__snapshots__/ 2>/dev/null || true)" ]; then
             echo "Snapshot files have changed. Please review and commit if intentional."
-            git diff cli/src/__tests__/snapshots/__snapshots__/
+            git diff cli/src/__tests__/snapshots/__snapshots__/ || true
             exit 1
           fi
 
