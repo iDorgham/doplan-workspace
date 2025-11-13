@@ -46,6 +46,7 @@ jobs:
             exit 1
           fi
           echo "Build successful"
+        shell: bash
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4

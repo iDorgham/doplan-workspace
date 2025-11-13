@@ -12,4 +12,3 @@ export function ideaCommand(program: Command) {
       await executeCommand('idea', { ...options, ...config });
     });
 }
-

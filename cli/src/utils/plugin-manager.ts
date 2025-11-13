@@ -39,9 +39,7 @@ export class PluginManager {
 
         if (existsSync(manifestPath)) {
           try {
-            const manifest: PluginManifest = JSON.parse(
-              readFileSync(manifestPath, 'utf-8')
-            );
+            const manifest: PluginManifest = JSON.parse(readFileSync(manifestPath, 'utf-8'));
             plugins.push({
               name: entry.name,
               version: manifest.version,
@@ -61,7 +59,7 @@ export class PluginManager {
 
   async installPlugin(entry: PluginRegistryEntry): Promise<void> {
     const pluginPath = this.getPluginPath(entry.name);
-    
+
     // Create plugin directory
     mkdirSync(pluginPath, { recursive: true });
 
@@ -79,11 +77,7 @@ export class PluginManager {
     };
 
     // Write manifest
-    writeFileSync(
-      join(pluginPath, 'manifest.json'),
-      JSON.stringify(manifest, null, 2),
-      'utf-8'
-    );
+    writeFileSync(join(pluginPath, 'manifest.json'), JSON.stringify(manifest, null, 2), 'utf-8');
 
     // Create basic command.js
     const commandJs = `module.exports = {
@@ -122,7 +116,7 @@ See \`manifest.json\` for plugin metadata.
 
   async removePlugin(pluginName: string): Promise<void> {
     const pluginPath = this.getPluginPath(pluginName);
-    
+
     if (!existsSync(pluginPath)) {
       throw new Error(`Plugin ${pluginName} is not installed`);
     }
@@ -145,7 +139,7 @@ See \`manifest.json\` for plugin metadata.
   verifySignature(manifest: PluginManifest): boolean {
     // For Phase 2, we'll implement basic signature verification
     // Full Ed25519 verification can be added in Phase 3
-    
+
     if (!manifest.signature || !manifest.publicKey) {
       // If no signature, consider it unverified but allow installation
       return false;
@@ -161,4 +155,3 @@ See \`manifest.json\` for plugin metadata.
     return existsSync(pluginPath) && existsSync(join(pluginPath, 'manifest.json'));
   }
 }
-

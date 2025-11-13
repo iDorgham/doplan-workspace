@@ -12,4 +12,3 @@ export function planCommand(program: Command) {
       await executeCommand('plan', { ...options, ...config });
     });
 }
-

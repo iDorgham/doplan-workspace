@@ -12,10 +12,7 @@ export interface CommandOptions extends DoPlanConfig {
   [key: string]: any;
 }
 
-export async function executeCommand(
-  command: string,
-  options: CommandOptions
-): Promise<void> {
+export async function executeCommand(command: string, options: CommandOptions): Promise<void> {
   const startTime = Date.now();
   const { projectRoot, noSpinner, json } = options;
   const workspacePath = join(projectRoot, '.cursor');
@@ -79,14 +76,14 @@ export async function executeCommand(
   } catch (error: any) {
     success = false;
     if (spinner) spinner.fail(red(`✗ ${command} failed`));
-    
+
     // Create error object with all relevant information
     const commandError = new Error(error.message || 'Command execution failed');
     (commandError as any).code = error.code || 1;
     (commandError as any).stdout = error.stdout;
     (commandError as any).stderr = error.stderr;
     (commandError as any).command = command;
-    
+
     // Throw error instead of exiting, let caller decide how to handle
     throw commandError;
   } finally {
@@ -103,4 +100,3 @@ export async function executeCommand(
     }
   }
 }
-

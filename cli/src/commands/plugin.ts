@@ -6,9 +6,7 @@ import { fetchRegistry } from '../utils/plugin-registry';
 import ora from 'ora';
 
 export function pluginCommand(program: Command) {
-  const pluginCmd = program
-    .command('plugin')
-    .description('Manage DoPlan plugins');
+  const pluginCmd = program.command('plugin').description('Manage DoPlan plugins');
 
   pluginCmd
     .command('list')
@@ -25,7 +23,7 @@ export function pluginCommand(program: Command) {
         try {
           const registry = await fetchRegistry();
           spinner.succeed(green('✓ Registry loaded'));
-          
+
           console.log(cyan('\nAvailable Plugins:'));
           console.log('─'.repeat(60));
           registry.plugins.forEach((plugin) => {
@@ -45,7 +43,7 @@ export function pluginCommand(program: Command) {
       } else {
         // Show installed plugins
         const plugins = manager.listInstalledPlugins();
-        
+
         if (plugins.length === 0) {
           console.log(yellow('No plugins installed.'));
           console.log(cyan('\nTo see available plugins:'));
@@ -88,7 +86,7 @@ export function pluginCommand(program: Command) {
         // Fetch registry
         spinner.text = 'Fetching plugin registry...';
         const registry = await fetchRegistry();
-        
+
         // Find plugin in registry
         const pluginEntry = registry.plugins.find((p) => p.name === name);
         if (!pluginEntry) {
@@ -115,7 +113,9 @@ export function pluginCommand(program: Command) {
 
         spinner.succeed(green(`✓ Plugin ${name} installed successfully`));
         console.log(cyan(`\nUsage: doplan ${pluginEntry.name}`));
-        console.log(yellow('Note: Plugin commands are executed through the workspace command router'));
+        console.log(
+          yellow('Note: Plugin commands are executed through the workspace command router')
+        );
       } catch (error: any) {
         spinner.fail(red(`✗ Failed to install plugin ${name}`));
         console.error(red(`Error: ${error.message}`));
@@ -184,4 +184,3 @@ export function pluginCommand(program: Command) {
       console.log('');
     });
 }
-

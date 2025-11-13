@@ -11,4 +11,3 @@ export function nextCommand(program: Command) {
       await executeCommand('next', { ...options, ...config });
     });
 }
-

@@ -20,9 +20,7 @@ import { watchCommand } from './commands/watch';
 import { readFileSync } from 'fs';
 import { join } from 'path';
 
-const packageJson = JSON.parse(
-  readFileSync(join(__dirname, '..', 'package.json'), 'utf-8')
-);
+const packageJson = JSON.parse(readFileSync(join(__dirname, '..', 'package.json'), 'utf-8'));
 const version = packageJson.version;
 
 const program = new Command();
@@ -67,4 +65,3 @@ process.on('unhandledRejection', (error: any) => {
 });
 
 program.parse();
-

@@ -12,4 +12,3 @@ export function partyCommand(program: Command) {
       await executeCommand('party', { command, ...options, ...config });
     });
 }
-

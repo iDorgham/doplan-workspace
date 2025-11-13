@@ -34,9 +34,9 @@ function renderBar(progress: number, width: number = 30): string {
 
 function formatStatus(status: string): string {
   const statusColors: Record<string, (s: string) => string> = {
-    'Completed': green,
+    Completed: green,
     'In Progress': blue,
-    'Blocked': red,
+    Blocked: red,
     'Not Started': yellow,
   };
   const colorFn = statusColors[status] || ((s: string) => s);
@@ -182,10 +182,10 @@ export function progressCommand(program: Command) {
       // First, refresh the dashboards by calling the workspace command
       try {
         await executeCommand('progress', { ...options, ...config });
-        } catch (error: unknown) {
-          // If workspace command fails, continue with reading existing data
-          // This is expected behavior - we want to show cached data if refresh fails
-          if (error && typeof error === 'object' && 'code' in error) {
+      } catch (error: unknown) {
+        // If workspace command fails, continue with reading existing data
+        // This is expected behavior - we want to show cached data if refresh fails
+        if (error && typeof error === 'object' && 'code' in error) {
           console.warn(yellow('Warning: Could not refresh dashboards. Showing cached data.'));
         } else {
           // Re-throw unexpected errors

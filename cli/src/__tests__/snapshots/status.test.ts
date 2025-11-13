@@ -3,7 +3,6 @@ import { displayBriefStatus, displayFullStatus } from '../../commands/progress';
 import type { StatusData } from '../../commands/progress';
 
 describe('Status Command Snapshot Tests', () => {
-
   it('should display brief status correctly', () => {
     const data: StatusData = {
       overallProgress: 45,
@@ -21,9 +20,7 @@ describe('Status Command Snapshot Tests', () => {
           name: 'Phase 2: MVP Build',
           status: 'Not Started',
           progress: 0,
-          features: [
-            { name: 'Authentication', status: 'Not Started', progress: 0 },
-          ],
+          features: [{ name: 'Authentication', status: 'Not Started', progress: 0 }],
         },
       ],
       nextAction: '/Next',
@@ -59,9 +56,7 @@ describe('Status Command Snapshot Tests', () => {
           name: 'Phase 2: MVP Build',
           status: 'Not Started',
           progress: 0,
-          features: [
-            { name: 'Authentication', status: 'Not Started', progress: 0 },
-          ],
+          features: [{ name: 'Authentication', status: 'Not Started', progress: 0 }],
         },
       ],
       nextAction: '/Next',
@@ -127,4 +122,3 @@ describe('Status Command Snapshot Tests', () => {
     expect(output.join('\n')).toMatchSnapshot();
   });
 });
-

@@ -13,4 +13,3 @@ export function testCommand(program: Command) {
       await executeCommand('test', { ...options, ...config });
     });
 }
-

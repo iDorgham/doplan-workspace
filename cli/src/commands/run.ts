@@ -12,4 +12,3 @@ export function runCommand(program: Command) {
       await executeCommand('run', { ...options, ...config });
     });
 }
-

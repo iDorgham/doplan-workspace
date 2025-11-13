@@ -3,9 +3,7 @@ import { loadConfig } from '../config';
 import { executeCommand } from '../utils/command-executor';
 
 export function mcpCommand(program: Command) {
-  const mcpCmd = program
-    .command('mcp')
-    .description('Manage MCP servers');
+  const mcpCmd = program.command('mcp').description('Manage MCP servers');
 
   mcpCmd
     .command('suggest')
@@ -31,4 +29,3 @@ export function mcpCommand(program: Command) {
       await executeCommand('mcp', { action: 'list', ...options, ...config });
     });
 }
-

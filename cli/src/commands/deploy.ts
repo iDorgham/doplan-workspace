@@ -13,4 +13,3 @@ export function deployCommand(program: Command) {
       await executeCommand('deploy', { ...options, ...config });
     });
 }
-

@@ -52,10 +52,9 @@ describe('Configuration Loading', () => {
 
   it('should handle invalid JSON gracefully', () => {
     writeFileSync(configPath, '{ invalid json }');
-    
+
     // Should not throw, should use defaults
     const config = loadConfig({ cwd: testDir });
     expect(config).toBeDefined();
   });
 });
-

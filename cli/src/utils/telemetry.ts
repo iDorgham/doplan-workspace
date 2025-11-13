@@ -73,7 +73,7 @@ export function setTelemetryEnabled(enabled: boolean): void {
 
 export async function promptForTelemetry(): Promise<boolean> {
   const config = loadTelemetryConfig();
-  
+
   // Don't prompt if already enabled or if prompted recently (within 30 days)
   if (config.enabled) {
     return true;
@@ -102,17 +102,17 @@ export async function promptForTelemetry(): Promise<boolean> {
     console.log('This includes: command name, duration, version, success status.');
     console.log('No personal data or code is collected.');
     console.log('─'.repeat(60));
-    
+
     rl.question('Enable telemetry? (y/N): ', (answer) => {
       const enabled = answer.toLowerCase() === 'y' || answer.toLowerCase() === 'yes';
       setTelemetryEnabled(enabled);
-      
+
       if (enabled) {
         console.log('✓ Telemetry enabled. Thank you for helping improve DoPlan!');
       } else {
         console.log('Telemetry disabled. You can enable it later with `doplan telemetry --enable`');
       }
-      
+
       rl.close();
       resolve(enabled);
     });
@@ -127,7 +127,7 @@ export async function recordEvent(event: TelemetryEvent): Promise<void> {
   // For now, log locally. In the future, this could send to a telemetry endpoint
   const logPath = join(homedir(), '.doplan-telemetry.log');
   const logEntry = JSON.stringify(event) + '\n';
-  
+
   try {
     writeFileSync(logPath, logEntry, { flag: 'a' });
   } catch (error) {
@@ -141,12 +141,9 @@ export function getVersion(): string {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     const path = require('path');
     const packageJsonPath = path.join(__dirname, '../../package.json');
-    const packageJson = JSON.parse(
-      readFileSync(packageJsonPath, 'utf-8')
-    );
+    const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'));
     return packageJson.version || 'unknown';
   } catch {
     return 'unknown';
   }
 }
-

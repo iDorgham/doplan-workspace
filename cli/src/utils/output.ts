@@ -25,4 +25,3 @@ export function formatProgressBar(progress: number, length: number = 40): string
   const empty = length - filled;
   return '█'.repeat(filled) + '░'.repeat(empty);
 }
-

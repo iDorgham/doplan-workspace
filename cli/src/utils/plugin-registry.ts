@@ -35,7 +35,7 @@ export async function fetchRegistry(_url: string = DEFAULT_REGISTRY_URL): Promis
     // For now, return a mock registry. In production, this would fetch from URL
     // const response = await fetch(url);
     // return await response.json();
-    
+
     return {
       version: '1.0.0',
       lastUpdated: new Date().toISOString(),
@@ -65,4 +65,3 @@ export async function fetchRegistry(_url: string = DEFAULT_REGISTRY_URL): Promis
     throw new Error(`Failed to fetch plugin registry: ${error}`);
   }
 }
-

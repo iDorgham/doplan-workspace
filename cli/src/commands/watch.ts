@@ -11,4 +11,3 @@ export function watchCommand(program: Command) {
       await executeCommand('watch', { ...options, ...config });
     });
 }
-

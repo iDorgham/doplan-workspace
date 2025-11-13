@@ -1,9 +1,6 @@
 import { Command } from 'commander';
 import { green, red, yellow, cyan } from 'colorette';
-import {
-  setTelemetryEnabled,
-  loadTelemetryConfig,
-} from '../utils/telemetry';
+import { setTelemetryEnabled, loadTelemetryConfig } from '../utils/telemetry';
 
 export function telemetryCommand(program: Command) {
   program
@@ -24,7 +21,7 @@ export function telemetryCommand(program: Command) {
         const config = loadTelemetryConfig();
         const status = config.enabled ? green('enabled') : red('disabled');
         console.log(`Telemetry is currently ${status}`);
-        
+
         if (config.lastPrompted) {
           const lastPrompted = new Date(config.lastPrompted);
           console.log(`Last prompted: ${lastPrompted.toLocaleDateString()}`);
@@ -42,4 +39,3 @@ export function telemetryCommand(program: Command) {
       }
     });
 }
-

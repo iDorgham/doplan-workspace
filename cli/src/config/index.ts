@@ -83,4 +83,3 @@ function validateConfig(config: DoPlanConfig): void {
     console.warn(yellow(`⚠ Unknown config keys: ${unknownKeys.join(', ')}`));
   }
 }
-

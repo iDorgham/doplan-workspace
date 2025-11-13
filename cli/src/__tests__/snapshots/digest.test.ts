@@ -9,9 +9,7 @@ describe('Digest Command Snapshot Tests', () => {
         'Phase 1: Discovery: 2 feature(s) complete',
         'Phase 2: MVP Build: 1 feature(s) complete',
       ],
-      risks: [
-        'Phase 1: Discovery: 1 blocked feature(s)',
-      ],
+      risks: ['Phase 1: Discovery: 1 blocked feature(s)'],
       nextSteps: [
         'Phase 1: Discovery: Continue with User Research, Competitive Analysis',
         'Phase 2: MVP Build: Continue with Authentication',
@@ -34,14 +32,9 @@ describe('Digest Command Snapshot Tests', () => {
 
   it('should display product digest preview correctly', () => {
     const summary: DigestSummary = {
-      highlights: [
-        'User Research: Completed',
-        'Competitive Analysis: In Progress',
-      ],
+      highlights: ['User Research: Completed', 'Competitive Analysis: In Progress'],
       risks: [],
-      nextSteps: [
-        'Continue with Authentication feature',
-      ],
+      nextSteps: ['Continue with Authentication feature'],
     };
 
     const content = buildDigestContent('product', summary);
@@ -60,17 +53,9 @@ describe('Digest Command Snapshot Tests', () => {
 
   it('should display dev digest preview correctly', () => {
     const summary: DigestSummary = {
-      highlights: [
-        'Authentication API: Implemented',
-        'Database migrations: Completed',
-      ],
-      risks: [
-        'Performance testing: Blocked on infrastructure',
-      ],
-      nextSteps: [
-        'Implement user dashboard',
-        'Add error handling',
-      ],
+      highlights: ['Authentication API: Implemented', 'Database migrations: Completed'],
+      risks: ['Performance testing: Blocked on infrastructure'],
+      nextSteps: ['Implement user dashboard', 'Add error handling'],
     };
 
     const content = buildDigestContent('dev', summary);
@@ -124,4 +109,3 @@ describe('Digest Command Snapshot Tests', () => {
     expect(devContent).toMatchSnapshot('dev-digest-content');
   });
 });
-

@@ -12,4 +12,3 @@ export function capacityCommand(program: Command) {
       await executeCommand('capacity', { ...options, ...config });
     });
 }
-

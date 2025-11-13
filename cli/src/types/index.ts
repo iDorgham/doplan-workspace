@@ -25,4 +25,3 @@ export interface FeatureProgress {
   progress: number;
   status: 'Not Started' | 'In Progress' | 'Completed';
 }
-

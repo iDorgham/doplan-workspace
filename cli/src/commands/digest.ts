@@ -20,8 +20,8 @@ export function buildDigestContent(audience: string, summary: DigestSummary): st
     audience === 'exec'
       ? 'High-level progress overview'
       : audience === 'product'
-      ? 'Product and experience update'
-      : 'Engineering delivery notes';
+        ? 'Product and experience update'
+        : 'Engineering delivery notes';
 
   return [
     `# DoPlan Digest — ${audience.toUpperCase()}`,
@@ -51,14 +51,14 @@ export function buildDigestContent(audience: string, summary: DigestSummary): st
 
 export function displayDigestPreview(audience: string, content: string): void {
   const titleColor = audience === 'exec' ? green : audience === 'product' ? blue : cyan;
-  
+
   console.log(titleColor('\n╔════════════════════════════════════════╗'));
   console.log(titleColor(`║   DoPlan Digest — ${audience.toUpperCase().padEnd(20)} ║`));
   console.log(titleColor('╚════════════════════════════════════════╝\n'));
-  
+
   // Parse and display formatted content
   const lines = content.split('\n');
-  
+
   lines.forEach((line) => {
     if (line.startsWith('# ')) {
       // Skip main title, already displayed
@@ -71,7 +71,10 @@ export function displayDigestPreview(audience: string, content: string): void {
       const bullet = line.replace('- ', '');
       if (bullet.includes('[ ]')) {
         console.log(yellow(`  • ${bullet}`));
-      } else if (bullet.toLowerCase().includes('blocked') || bullet.toLowerCase().includes('risk')) {
+      } else if (
+        bullet.toLowerCase().includes('blocked') ||
+        bullet.toLowerCase().includes('risk')
+      ) {
         console.log(red(`  • ${bullet}`));
       } else if (bullet.toLowerCase().includes('complete')) {
         console.log(green(`  • ${bullet}`));
@@ -84,7 +87,7 @@ export function displayDigestPreview(audience: string, content: string): void {
       console.log(line);
     }
   });
-  
+
   console.log('');
 }
 
@@ -104,11 +107,11 @@ async function generateDigest(
 async function loadExistingDigest(projectRoot: string, audience: string): Promise<string | null> {
   const digestDir = join(projectRoot, 'plan', 'digests', getDateSlug(new Date()));
   const filePath = join(digestDir, `${audience}.md`);
-  
+
   if (existsSync(filePath)) {
     return readFileSync(filePath, 'utf-8');
   }
-  
+
   return null;
 }
 
@@ -127,12 +130,12 @@ export function digestCommand(program: Command) {
 
       // Generate digest summary
       let summary: DigestSummary | null = null;
-      
+
       if (options.write) {
         // For write mode, call workspace command to generate files
         try {
           await executeCommand('digest', { ...config, write: true, audience: audiences.join(',') });
-          
+
           // Load the generated digest to parse summary
           const existingContent = await loadExistingDigest(projectRoot, audiences[0]);
           if (existingContent) {
@@ -149,7 +152,7 @@ export function digestCommand(program: Command) {
           }
         }
       }
-      
+
       // If no summary yet, try to load existing or create basic one
       if (!summary) {
         const existingContent = await loadExistingDigest(projectRoot, audiences[0]);
@@ -176,7 +179,7 @@ export function digestCommand(program: Command) {
           const filePath = await generateDigest(projectRoot, aud, summary!);
           writtenFiles.push(filePath);
         }
-        
+
         console.log(green(`\n✓ Digest files written:`));
         writtenFiles.forEach((file) => {
           console.log(`  ${file}`);
@@ -201,37 +204,47 @@ async function generateSummaryFromProgress(projectRoot: string): Promise<DigestS
     try {
       const statusData = JSON.parse(readFileSync(statusJsonPath, 'utf-8'));
       const phases = statusData.phases || [];
-      
-      phases.forEach((phase: { name?: string; features?: Array<{ name?: string; status?: string; progress?: number }> }) => {
-        const completedFeatures = (phase.features || []).filter((f) => f.status === 'Completed');
-        if (completedFeatures.length > 0) {
-          summary.highlights.push(
-            `${phase.name || 'Unknown'}: ${completedFeatures.length} feature(s) complete`
-          );
-        }
 
-        const blocked = (phase.features || []).filter((f) => f.status === 'Blocked');
-        if (blocked.length > 0) {
-          summary.risks.push(
-            `${phase.name || 'Unknown'}: ${blocked.length} blocked feature(s)`
-          );
-        }
+      phases.forEach(
+        (phase: {
+          name?: string;
+          features?: Array<{ name?: string; status?: string; progress?: number }>;
+        }) => {
+          const completedFeatures = (phase.features || []).filter((f) => f.status === 'Completed');
+          if (completedFeatures.length > 0) {
+            summary.highlights.push(
+              `${phase.name || 'Unknown'}: ${completedFeatures.length} feature(s) complete`
+            );
+          }
 
-        const inProgress = (phase.features || []).filter(
-          (f) => f.status === 'In Progress' || (f.progress && f.progress > 0 && f.progress < 100)
-        );
-        if (inProgress.length > 0) {
-          summary.nextSteps.push(
-            `${phase.name || 'Unknown'}: Continue with ${inProgress.slice(0, 2).map((f) => f.name || 'Unknown').join(', ')}`
+          const blocked = (phase.features || []).filter((f) => f.status === 'Blocked');
+          if (blocked.length > 0) {
+            summary.risks.push(`${phase.name || 'Unknown'}: ${blocked.length} blocked feature(s)`);
+          }
+
+          const inProgress = (phase.features || []).filter(
+            (f) => f.status === 'In Progress' || (f.progress && f.progress > 0 && f.progress < 100)
           );
+          if (inProgress.length > 0) {
+            summary.nextSteps.push(
+              `${phase.name || 'Unknown'}: Continue with ${inProgress
+                .slice(0, 2)
+                .map((f) => f.name || 'Unknown')
+                .join(', ')}`
+            );
+          }
         }
-      });
+      );
     } catch (error) {
       // Use default summary
     }
   }
 
-  if (summary.highlights.length === 0 && summary.risks.length === 0 && summary.nextSteps.length === 0) {
+  if (
+    summary.highlights.length === 0 &&
+    summary.risks.length === 0 &&
+    summary.nextSteps.length === 0
+  ) {
     summary.nextSteps.push('Run `doplan plan` to generate project plan');
   }
 
@@ -257,7 +270,11 @@ function parseDigestContent(content: string): DigestSummary {
       currentSection = 'nextSteps';
     } else if (line.startsWith('- ') && currentSection) {
       const bullet = line.replace('- ', '').trim();
-      if (bullet !== 'None recorded.' && bullet !== 'No risks flagged.' && bullet !== 'Continue monitoring progress.') {
+      if (
+        bullet !== 'None recorded.' &&
+        bullet !== 'No risks flagged.' &&
+        bullet !== 'Continue monitoring progress.'
+      ) {
         summary[currentSection as keyof DigestSummary].push(bullet);
       }
     }

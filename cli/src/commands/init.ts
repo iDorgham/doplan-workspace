@@ -66,13 +66,13 @@ async function copyDirectory(src: string, dest: string): Promise<void> {
 
 function getTemplatePath(): string {
   // Try multiple paths to find the template directory
-  
+
   // 1. Development: CLI is in the workspace (cli/ directory)
   const devPath = resolve(__dirname, '../../..');
   if (existsSync(join(devPath, '.cursor'))) {
     return devPath;
   }
-  
+
   // 2. Installed via npm: Look for templates in CLI package
   // In production, templates should be bundled with the CLI
   const cliPackagePath = resolve(__dirname, '../..');
@@ -80,14 +80,14 @@ function getTemplatePath(): string {
   if (existsSync(templatesPath)) {
     return cliPackagePath;
   }
-  
+
   // 3. Fallback: Use current working directory's parent
   // This assumes we're running from the workspace root
   const cwdParent = resolve(process.cwd(), '..');
   if (existsSync(join(cwdParent, '.cursor'))) {
     return cwdParent;
   }
-  
+
   // 4. Last resort: return null and use minimal structure
   return '';
 }
@@ -97,16 +97,20 @@ async function initializeProject(options: InitOptions): Promise<void> {
   const skipGit = (options as any)['skip-git'] || (options as any).skipGit;
   const skipInstall = (options as any)['skip-install'] || (options as any).skipInstall;
   const skipSetup = (options as any)['skip-setup'] || (options as any).skipSetup;
-  
+
   const { name, stack, git, install, setup, cwd } = options;
-  
+
   let projectName = name;
   let selectedStack = stack;
-  
+
   // Handle skip flags: if skip-* is true, set to false and don't prompt
-  let initGit: boolean | undefined = skipGit ? false : (git !== undefined ? git : undefined);
-  let runInstall: boolean | undefined = skipInstall ? false : (install !== undefined ? install : undefined);
-  let runSetup: boolean | undefined = skipSetup ? false : (setup !== undefined ? setup : undefined);
+  let initGit: boolean | undefined = skipGit ? false : git !== undefined ? git : undefined;
+  let runInstall: boolean | undefined = skipInstall
+    ? false
+    : install !== undefined
+      ? install
+      : undefined;
+  let runSetup: boolean | undefined = skipSetup ? false : setup !== undefined ? setup : undefined;
 
   // Interactive prompts if not provided
   if (!projectName) {
@@ -124,9 +128,10 @@ async function initializeProject(options: InitOptions): Promise<void> {
     });
     const stackInput = await prompt(cyan('\nSelect stack (1-8) or press Enter for Custom: '));
     const stackIndex = parseInt(stackInput) - 1;
-    selectedStack = stackIndex >= 0 && stackIndex < STACK_PRESETS.length
-      ? STACK_PRESETS[stackIndex].value
-      : 'custom';
+    selectedStack =
+      stackIndex >= 0 && stackIndex < STACK_PRESETS.length
+        ? STACK_PRESETS[stackIndex].value
+        : 'custom';
   }
 
   // Only prompt if not explicitly set (skip flags already set to false)
@@ -152,7 +157,9 @@ async function initializeProject(options: InitOptions): Promise<void> {
   if (existsSync(projectRoot)) {
     const files = await readdir(projectRoot);
     if (files.length > 0) {
-      const overwrite = await prompt(yellow(`Directory ${projectRoot} exists and is not empty. Continue? (y/N): `));
+      const overwrite = await prompt(
+        yellow(`Directory ${projectRoot} exists and is not empty. Continue? (y/N): `)
+      );
       if (overwrite.toLowerCase() !== 'y') {
         console.log(red('✗ Initialization cancelled'));
         process.exit(0);
@@ -170,7 +177,7 @@ async function initializeProject(options: InitOptions): Promise<void> {
     if (templateRoot) {
       const cursorSource = join(templateRoot, '.cursor');
       const cursorDest = join(projectRoot, '.cursor');
-      
+
       if (existsSync(cursorSource)) {
         spinner.text = 'Copying .cursor directory...';
         await copyDirectory(cursorSource, cursorDest);
@@ -187,7 +194,7 @@ async function initializeProject(options: InitOptions): Promise<void> {
     if (templateRoot) {
       const scriptsSource = join(templateRoot, 'scripts');
       const scriptsDest = join(projectRoot, 'scripts');
-      
+
       if (existsSync(scriptsSource)) {
         spinner.text = 'Copying scripts...';
         await copyDirectory(scriptsSource, scriptsDest);
@@ -224,7 +231,9 @@ plan/
       try {
         await execAsync('git init', { cwd: projectRoot });
         await execAsync('git add .', { cwd: projectRoot });
-        await execAsync('git commit -m "Initial commit: DoPlan workspace"', { cwd: projectRoot }).catch(() => {
+        await execAsync('git commit -m "Initial commit: DoPlan workspace"', {
+          cwd: projectRoot,
+        }).catch(() => {
           // Ignore if no files to commit
         });
       } catch (error) {
@@ -267,7 +276,6 @@ plan/
     }
     console.log(`  doplan idea`);
     console.log(`  doplan plan`);
-
   } catch (error: any) {
     spinner.fail(red('✗ Initialization failed'));
     console.error(red(`Error: ${error.message}`));
@@ -333,13 +341,13 @@ function createPackageJson(projectName: string, stack: string): any {
     'react-ts': 'React + TypeScript',
     'vue-ts': 'Vue.js + TypeScript',
     'node-express': 'Node.js + Express',
-    'nextjs': 'Next.js',
-    'sveltekit': 'SvelteKit',
+    nextjs: 'Next.js',
+    sveltekit: 'SvelteKit',
     'vanilla-js': 'Vanilla JavaScript',
     'python-fastapi': 'Python + FastAPI',
-    'custom': 'Custom',
+    custom: 'Custom',
   };
-  
+
   return {
     name: projectName.toLowerCase().replace(/\s+/g, '-'),
     version: '0.1.0',
@@ -373,7 +381,10 @@ export function initCommand(program: Command) {
     .command('init')
     .description('Initialize a new DoPlan workspace')
     .option('--name <name>', 'Project name (non-interactive mode)')
-    .option('--stack <stack>', 'Stack preset (react-ts, vue-ts, node-express, nextjs, sveltekit, vanilla-js, python-fastapi, custom)')
+    .option(
+      '--stack <stack>',
+      'Stack preset (react-ts, vue-ts, node-express, nextjs, sveltekit, vanilla-js, python-fastapi, custom)'
+    )
     .option('--git', 'Initialize Git repository')
     .option('--skip-git', 'Skip Git initialization')
     .option('--install', 'Run npm install')
@@ -386,4 +397,3 @@ export function initCommand(program: Command) {
       await initializeProject({ ...options, ...config });
     });
 }
-
