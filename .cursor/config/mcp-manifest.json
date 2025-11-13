@@ -1,0 +1,10 @@
+{
+  "servers": [],
+  "autoSuggest": true,
+  "logFile": "plan/mcp-report.md",
+  "recommendationRules": {
+    "requireStackMatch": true,
+    "maxSuggestions": 3
+  }
+}
+

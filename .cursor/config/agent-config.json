@@ -1,0 +1,41 @@
+{
+  "agents": {
+    "product": {
+      "persona": "Product Agent",
+      "enabled": true,
+      "languages": ["en"],
+      "tone": "strategic"
+    },
+    "architect": {
+      "persona": "Architect Agent",
+      "enabled": true,
+      "languages": ["en"],
+      "tone": "technical"
+    },
+    "developer": {
+      "persona": "Developer Agent",
+      "enabled": true,
+      "languages": ["en"],
+      "tone": "pragmatic"
+    },
+    "tester": {
+      "persona": "Tester Agent",
+      "enabled": true,
+      "languages": ["en"],
+      "tone": "critical"
+    },
+    "devops": {
+      "persona": "DevOps Agent",
+      "enabled": true,
+      "languages": ["en"],
+      "tone": "reliability-focused"
+    },
+    "scrum": {
+      "persona": "Scrum Agent",
+      "enabled": true,
+      "languages": ["en"],
+      "tone": "facilitative"
+    }
+  }
+}
+

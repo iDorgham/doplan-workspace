@@ -1,0 +1,29 @@
+{
+  "name": "doplan-workspace",
+  "version": "0.1.0",
+  "description": "DoPlan workflow implementation for Cursor with mirrored CLI commands.",
+  "type": "commonjs",
+  "scripts": {
+    "doplan:setup": "node scripts/doplan-cli.js setup",
+    "doplan:idea": "node scripts/doplan-cli.js idea",
+    "doplan:plan": "node scripts/doplan-cli.js plan",
+    "doplan:next": "node scripts/doplan-cli.js next",
+    "doplan:progress": "node scripts/doplan-cli.js progress",
+    "doplan:test": "node scripts/doplan-cli.js test",
+    "doplan:run": "node scripts/doplan-cli.js run",
+    "doplan:deploy": "node scripts/doplan-cli.js deploy",
+    "doplan:capacity": "node scripts/doplan-cli.js capacity",
+    "doplan:digest": "node scripts/doplan-cli.js digest",
+    "doplan:mcp": "node scripts/doplan-cli.js mcp",
+    "doplan:party": "node scripts/doplan-cli.js party",
+    "doplan:watch": "node scripts/doplan-cli.js watch",
+    "generate-plan": "node scripts/doplan-cli.js plan --generate-only",
+    "update-progress": "node scripts/doplan-cli.js progress --refresh"
+  },
+  "dependencies": {
+    "chokidar": "^3.5.3",
+    "colorette": "^2.0.20",
+    "yaml": "^2.5.1"
+  }
+}
+

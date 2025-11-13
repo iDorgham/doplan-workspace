@@ -1,0 +1,39 @@
+# DoPlan Cursor Rules
+
+## Context Loading
+- Always load `.cursor/context/context.md`, `.cursor/config/state.json`, and `.cursor/config/mcp-manifest.json` at the start of a session.
+- Use `.cursor/panels/goals.json` and `.cursor/panels/status.json` to populate IDE panels.
+
+## Command Mapping
+- Map slash commands to CLI equivalents:
+  - `/Setup` ↔ `npm run doplan:setup`
+  - `/Idea` ↔ `npm run doplan:idea`
+  - `/Plan` ↔ `npm run doplan:plan`
+  - `/Next` ↔ `npm run doplan:next`
+  - `/Progress` ↔ `npm run doplan:progress`
+  - `/Test` ↔ `npm run doplan:test`
+  - `/Run` ↔ `npm run doplan:run`
+  - `/Deploy` ↔ `npm run doplan:deploy`
+  - `/Capacity` ↔ `npm run doplan:capacity`
+  - `/Digest` ↔ `npm run doplan:digest`
+  - `/MCP` ↔ `npm run doplan:mcp`
+  - `/Party` ↔ `npm run doplan:party`
+  - `/Watch` ↔ `npm run doplan:watch`
+
+## Execution Flow
+- Obey the workflow rules in `.cursor/rules/workflow-rules.md`.
+- Consult `.cursor/rules/commands/command-rules.md` for prerequisites, flags, and outputs.
+- Apply agent recommendation guidelines from `.cursor/rules/agent-recommendations.md`.
+- Ensure MCP usage follows `.cursor/rules/mcp-rules.md`.
+- When file changes are detected, follow `.cursor/rules/lifecycle-sync.md`.
+- Respect plugin guidelines in `.cursor/rules/plugins.md`.
+
+## Safety
+- Confirm with the user before running commands that modify code or infrastructure.
+- Do not auto-applied MCP servers without consent (`--accept-mcp` or `/MCP apply`).
+- Prevent `/Deploy` from running if `/Test` recently failed.
+
+## Reporting
+- Encourage the user to run `/Progress` after meaningful work.
+- Recommend `/Digest` or `/Capacity` when stakeholders need updates.
+

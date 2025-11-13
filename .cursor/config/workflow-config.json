@@ -1,0 +1,43 @@
+{
+  "workflow": {
+    "name": "DoPlan Workflow",
+    "version": "0.1.0",
+    "autoRecommendNext": true,
+    "autoUpdateProgress": true,
+    "autoSuggestMcpServers": true,
+    "modes": {
+      "idea": {
+        "default": "detailed",
+        "simpleFlag": "--simple",
+        "allowMvpOnly": true
+      }
+    }
+  },
+  "commands": {
+    "setup": {
+      "autoInstallDependencies": true,
+      "checkNodeVersion": true,
+      "configureGit": true,
+      "seedEnv": true
+    },
+    "plan": {
+      "requireIdeaComplete": true,
+      "generateAllTemplates": true,
+      "mirrorNpmCommands": true
+    },
+    "next": {
+      "showProgressBars": true,
+      "showDocumentationLinks": true,
+      "considerCapacity": true
+    },
+    "progress": {
+      "autoUpdate": true,
+      "emitPanels": true
+    },
+    "mcp": {
+      "autoRegisterSuggestedServers": false,
+      "logUsage": true
+    }
+  }
+}
+
